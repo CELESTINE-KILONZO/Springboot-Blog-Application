@@ -16,7 +16,7 @@ public class users {
 
     public static class users {
         @Id
-        private Long id;
+        private Long user_id;
         private String username;
         private String email;
         private String password;

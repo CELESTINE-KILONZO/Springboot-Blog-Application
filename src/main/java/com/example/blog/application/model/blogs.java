@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class blogs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long blog_id;
     private String title;
     private String description;
     private String  author;
@@ -24,4 +24,13 @@ public class blogs {
     private LocalDateTime created;
     private LocalDateTime updated;
 
+    @ManyToOne(fetch=FetchType.EAGER,optional=false)
+    @JoinColumn(name = "user_id")
+    Private users users;
+
+
+    @ManyToOne(fetch=FetchType.EAGER,optional=false)
+    @JoinColumn(name = "category_id")
+    Private categories categories;
 }
+

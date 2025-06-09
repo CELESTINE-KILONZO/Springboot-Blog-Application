@@ -7,22 +7,30 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-public class comments {
     @Entity
     @Table(name = "comments")
     @Getter
     @Setter
     @NoArgsConstructor
 
-    public static class comments  {
+    public class comments  {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+        private Long comment_id;
         private String content;
         private LocalDateTime created_at;
 
 
+        @ManyToOne(fetch=FetchType.EAGER,optional=false)
+        @JoinColumn(name = "user_id")
+        Private users users;
 
+        @ManyToOne(fetch=FetchType.EAGER,optional=false)
+        @JoinColumn(name = "blog_id")
+        Private blogs blogs;
+    }
     }
 
-}
+
+
+

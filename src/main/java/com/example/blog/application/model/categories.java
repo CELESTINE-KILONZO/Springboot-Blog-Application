@@ -7,18 +7,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public class categories {
     @Entity
     @Table (name = "categories")
     @Getter
     @Setter
   @NoArgsConstructor
-    public static class categories {
+    public class categories {
         @Id
-        private Long id;
-        private String name;
+        private Long category_id;
+        private String category_name;
 
 
 
     }
-}
+
