@@ -1,7 +1,9 @@
 package com.example.blog.application.repository;
 
-import com.example.blog.application.model.likes;
+import com.example.blog.application.model.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface LikesRepository extends JpaRepository <likes,Long> {
+@Repository
+public interface LikesRepository extends JpaRepository <Likes,Long> {
 }

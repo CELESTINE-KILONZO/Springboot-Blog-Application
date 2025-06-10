@@ -1,5 +1,8 @@
 package com.example.blog.application.dto;
 
+import lombok.Data;
+
+@Data
 public class CommentsUserDto {
     private Long user_id;
     private String username;

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
     @Setter
     @NoArgsConstructor
 
-    public class comments  {
+    public class Comments {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long comment_id;
@@ -23,13 +23,13 @@ import java.time.LocalDateTime;
 
         @ManyToOne(fetch=FetchType.EAGER,optional=false)
         @JoinColumn(name = "user_id")
-        Private users users;
+        private Users users;
 
         @ManyToOne(fetch=FetchType.EAGER,optional=false)
         @JoinColumn(name = "blog_id")
-        Private blogs blogs;
+        private Blogs blogs;
     }
-    }
+
 
 
 

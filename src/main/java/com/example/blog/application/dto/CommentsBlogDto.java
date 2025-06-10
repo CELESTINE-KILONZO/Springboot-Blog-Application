@@ -1,5 +1,8 @@
 package com.example.blog.application.dto;
 
+import lombok.Data;
+
+@Data
 public class CommentsBlogDto {
     private Long blog_id;
     private String title;
