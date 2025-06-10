@@ -1,7 +1,10 @@
 package com.example.blog.application.repository;
 
-import com.example.blog.application.model.users;
+import com.example.blog.application.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<users, Long> {
+@Repository
+public interface UserRepository extends JpaRepository<Users, Long> {
+
 }

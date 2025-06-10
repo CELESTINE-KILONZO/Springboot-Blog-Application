@@ -1,7 +1,9 @@
 package com.example.blog.application.repository;
 
-import com.example.blog.application.model.categories;
+import com.example.blog.application.model.Categories;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CategoriesRepository extends JpaRepository<categories, Long> {
+@Repository
+public interface CategoriesRepository extends JpaRepository<Categories, Long> {
 }

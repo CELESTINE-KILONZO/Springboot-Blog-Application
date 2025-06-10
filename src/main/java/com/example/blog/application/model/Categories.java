@@ -1,8 +1,6 @@
 package com.example.blog.application.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,13 +9,11 @@ import lombok.Setter;
     @Table (name = "categories")
     @Getter
     @Setter
-  @NoArgsConstructor
-    public class categories {
+    @NoArgsConstructor
+    public class Categories {
         @Id
         private Long category_id;
         private String category_name;
-
-
 
     }
 

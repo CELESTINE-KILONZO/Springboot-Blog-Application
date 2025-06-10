@@ -13,18 +13,18 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 
-public class likes {
+public class Likes {
     @Id
     private Long like_id;
     private LocalDateTime liked_at;
 
     @ManyToOne(fetch= FetchType.EAGER,optional=false)
     @JoinColumn(name = "user_id")
-    Private users users;
+    private Users users;
 
     @ManyToOne(fetch=FetchType.EAGER,optional=false)
     @JoinColumn(name = "blog_id")
-    Private blogs blogs;
+    private Blogs blogs;
 }
 
 

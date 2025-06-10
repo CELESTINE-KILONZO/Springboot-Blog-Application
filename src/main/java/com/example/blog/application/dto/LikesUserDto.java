@@ -1,7 +1,10 @@
 package com.example.blog.application.dto;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class LikesUserDto {
     private Long user_id;
     private String username;

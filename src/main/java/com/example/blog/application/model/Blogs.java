@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class blogs {
+public class Blogs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long blog_id;
@@ -26,11 +26,11 @@ public class blogs {
 
     @ManyToOne(fetch=FetchType.EAGER,optional=false)
     @JoinColumn(name = "user_id")
-    Private users users;
+    private Users users;
 
 
     @ManyToOne(fetch=FetchType.EAGER,optional=false)
     @JoinColumn(name = "category_id")
-    Private categories categories;
+    private Categories categories;
 }
 
