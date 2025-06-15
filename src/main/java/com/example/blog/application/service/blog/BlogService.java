@@ -2,11 +2,16 @@ package com.example.blog.application.service.blog;
 
 import com.example.blog.application.dto.BlogUserCatDto;
 import com.example.blog.application.model.Blogs;
+import com.example.blog.application.model.Categories;
+import com.example.blog.application.model.Users;
 import com.example.blog.application.repository.BlogRepository;
+import com.example.blog.application.repository.CategoriesRepository;
+import com.example.blog.application.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +22,15 @@ import java.util.stream.Collectors;
 public class BlogService implements IBlogService{
 
     private final BlogRepository blogRepository;
+    private final UserRepository userRepository;
+    private final CategoriesRepository categoriesRepository;
+
+    @Override
+    public BlogUserCatDto CreatBlog(BlogUserCatDto blogUserCatDto) {
+        Blogs blogs = mapToEntity(blogUserCatDto);
+        blogRepository.save(blogs);
+        return mapToDto(blogs);
+    }
 
     @Override
     public List<BlogUserCatDto> getAllBlogs() {
@@ -81,5 +95,25 @@ public class BlogService implements IBlogService{
         }
 
         return dto;
+
     }
+    private Blogs mapToEntity(BlogUserCatDto dto) {
+        Blogs blog = new Blogs();
+        blog.setTitle(dto.getTitle());
+        blog.setDescription(dto.getDescription());
+        blog.setContent(dto.getContent());
+        blog.setCreated(LocalDateTime.now());
+        blog.setUpdated(LocalDateTime.now());
+
+        Users users = userRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        blog.setUsers(users);
+
+        Categories category = categoriesRepository.findById(dto.getCategory_id())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        blog.setCategories(category);
+
+        return blog;
+    }
+
 }
