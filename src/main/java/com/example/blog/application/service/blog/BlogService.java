@@ -1,6 +1,6 @@
 package com.example.blog.application.service.blog;
 
-import com.example.blog.application.dto.BlogUserCatDto;
+import com.example.blog.application.dto.BlogDto;
 import com.example.blog.application.model.Blogs;
 import com.example.blog.application.model.Categories;
 import com.example.blog.application.model.Users;
@@ -26,14 +26,14 @@ public class BlogService implements IBlogService{
     private final CategoriesRepository categoriesRepository;
 
     @Override
-    public BlogUserCatDto CreatBlog(BlogUserCatDto blogUserCatDto) {
+    public BlogDto CreatBlog(BlogDto blogUserCatDto) {
         Blogs blogs = mapToEntity(blogUserCatDto);
         blogRepository.save(blogs);
         return mapToDto(blogs);
     }
 
     @Override
-    public List<BlogUserCatDto> getAllBlogs() {
+    public List<BlogDto> getAllBlogs() {
         List<Blogs> blogs = blogRepository.findAll();
         return blogs.stream()
                 .map(this::mapToDto)
@@ -41,31 +41,31 @@ public class BlogService implements IBlogService{
     }
 
     @Override
-    public BlogUserCatDto getBlogById(Long id) {
+    public BlogDto getBlogById(Long id) {
         Optional<Blogs> blog = blogRepository.findById(id);
         return blog.map(this::mapToDto).orElse(null);
     }
 
     @Override
-    public BlogUserCatDto saveBlog(Blogs blog) {
+    public BlogDto saveBlog(Blogs blog) {
         Blogs savedBlog = blogRepository.save(blog);
         return mapToDto(savedBlog);
     }
 
     @Override
-    public List<BlogUserCatDto> getBlogsByTitle(String title) {
+    public List<BlogDto> getBlogsByTitle(String title) {
         List<Blogs> blogs = blogRepository.findByTitle(title);
         return blogs.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<BlogUserCatDto> getBlogsByAuthor(String author) {
+    public List<BlogDto> getBlogsByAuthor(String author) {
         List<Blogs> blogs = blogRepository.findByAuthor(author);
         return blogs.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<BlogUserCatDto> getBlogsByCategory(String categoryName) {
+    public List<BlogDto> getBlogsByCategory(String categoryName) {
         List<Blogs> blogs = blogRepository.findAll()
                 .stream()
                 .filter(b -> b.getCategories() != null && categoryName.equalsIgnoreCase(b.getCategories().getCategory_name()))
@@ -74,8 +74,8 @@ public class BlogService implements IBlogService{
     }
 
     // Helper method to convert entity to DTO
-    private BlogUserCatDto mapToDto(Blogs blog) {
-        BlogUserCatDto dto = new BlogUserCatDto();
+    private BlogDto mapToDto(Blogs blog) {
+        BlogDto dto = new BlogDto();
         dto.setBlog_id(blog.getBlog_id());
         dto.setTitle(blog.getTitle());
         dto.setDescription(blog.getDescription());
@@ -97,7 +97,7 @@ public class BlogService implements IBlogService{
         return dto;
 
     }
-    private Blogs mapToEntity(BlogUserCatDto dto) {
+    private Blogs mapToEntity(BlogDto dto) {
         Blogs blog = new Blogs();
         blog.setTitle(dto.getTitle());
         blog.setDescription(dto.getDescription());
