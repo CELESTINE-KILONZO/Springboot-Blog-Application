@@ -5,10 +5,16 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class LikesUserDto {
+public class LikesDto {
+    private Long like_id;
+    private LocalDateTime liked_at;
+
+    // User Info
     private Long user_id;
     private String username;
     private String email;
-    private Long like_id;
-    private LocalDateTime liked_at;
+
+    // Blog Info
+    private Long blog_id;
+    private String title;
 }

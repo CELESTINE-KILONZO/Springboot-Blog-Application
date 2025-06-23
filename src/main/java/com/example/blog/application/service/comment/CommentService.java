@@ -5,7 +5,7 @@ import com.example.blog.application.model.Blogs;
 import com.example.blog.application.model.Comments;
 import com.example.blog.application.model.Users;
 import com.example.blog.application.repository.BlogRepository;
-import com.example.blog.application.repository.CommentsReposiory;
+import com.example.blog.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 public class CommentService implements ICommentService {
 
     @Autowired
-    private CommentsReposiory commentsReposiory;
+    private CommentsRepository commentsReposiory;
 
     @Autowired
-    private UsersRepository usersRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private BlogRepository blogRepository;
@@ -32,7 +32,7 @@ public class CommentService implements ICommentService {
         comment.setContent(dto.getContent());
         comment.setCreated_at(LocalDateTime.now());
 
-        Users user = usersRepository.findById(dto.getUser_id()).orElse(null);
+        Users user = userRepository.findById(dto.getUser_id()).orElse(null);
         Blogs blog = blogRepository.findById(dto.getBlog_id()).orElse(null);
 
         comment.setUsers(user);
