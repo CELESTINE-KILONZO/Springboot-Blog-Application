@@ -7,6 +7,8 @@ import com.example.blog.application.model.Users;
 import com.example.blog.application.repository.BlogRepository;
 import com.example.blog.application.repository.LikesRepository;
 import com.example.blog.application.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +17,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class LikesService implements ILikesService {
 
-    @Autowired
-    private LikesRepository likesRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final LikesRepository likesRepository;
 
-    @Autowired
-    private BlogRepository blogRepository;
+
+    private final UserRepository userRepository;
+
+
+    private final BlogRepository blogRepository;
+
+    private final ModelMapper modelMapper;
 
     @Override
     public LikesDto createLike(LikesDto likeDto) {
@@ -68,22 +73,7 @@ public class LikesService implements ILikesService {
     }
 
     private LikesDto mapToDto(Likes like) {
-        LikesDto dto = new LikesDto();
-        dto.setLike_id(like.getLike_id());
-        dto.setLiked_at(like.getLiked_at());
-
-        if (like.getUsers() != null) {
-            dto.setUser_id(like.getUsers().getUser_id());
-            dto.setUsername(like.getUsers().getUsername());
-            dto.setEmail(like.getUsers().getEmail());
-        }
-
-        if (like.getBlogs() != null) {
-            dto.setBlog_id(like.getBlogs().getBlog_id());
-            dto.setTitle(like.getBlogs().getTitle());
-        }
-
-        return dto;
+        return modelMapper.map(like,LikesDto.class);
     }
 }
 

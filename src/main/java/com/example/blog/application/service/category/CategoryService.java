@@ -1,8 +1,12 @@
 package com.example.blog.application.service.category;
 
+import com.example.blog.application.dto.BlogDto;
 import com.example.blog.application.dto.CategoryDto;
+import com.example.blog.application.model.Blogs;
 import com.example.blog.application.model.Categories;
 import com.example.blog.application.repository.CategoriesRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +15,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
 
-    @Autowired
-    private CategoriesRepository categoriesRepository;
+
+    private final CategoriesRepository categoriesRepository;
+
+    private final ModelMapper modelMapper;
+
 
     @Override
     public CategoryDto createCategory(CategoryDto dto) {
@@ -26,7 +34,7 @@ public class CategoryService implements ICategoryService {
         return mapToDto(saved);
     }
 
-     @Override
+    @Override
     public List<CategoryDto> getAllCategories() {
         return categoriesRepository.findAll()
                 .stream()
@@ -55,7 +63,7 @@ public class CategoryService implements ICategoryService {
         return null;
     }
 
-   @Override
+    @Override
     public boolean deleteCategory(Long id) {
         if (categoriesRepository.existsById(id)) {
             categoriesRepository.deleteById(id);
@@ -66,10 +74,10 @@ public class CategoryService implements ICategoryService {
 
     // Mapper method
     private CategoryDto mapToDto(Categories category) {
-        CategoryDto dto = new CategoryDto();
-        dto.setCategory_id(category.getCategory_id());
-        dto.setCategory_name(category.getCategory_name());
-        return dto;
-    }
-}
 
+        return modelMapper.map(category, CategoryDto.class);
+
+
+    }
+
+}

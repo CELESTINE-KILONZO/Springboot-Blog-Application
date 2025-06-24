@@ -1,12 +1,15 @@
 package com.example.blog.application.service.comment;
 
+import com.example.blog.application.dto.CategoryDto;
 import com.example.blog.application.dto.CommentDto;
 import com.example.blog.application.model.Blogs;
 import com.example.blog.application.model.Comments;
 import com.example.blog.application.model.Users;
 import com.example.blog.application.repository.BlogRepository;
+import com.example.blog.application.repository.CommentsRepository;
 import com.example.blog.application.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,16 +18,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+
 public class CommentService implements ICommentService {
 
-    @Autowired
-    private CommentsRepository commentsReposiory;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final CommentsRepository commentsRepository;
 
-    @Autowired
-    private BlogRepository blogRepository;
+    private final UserRepository userRepository;
+
+    private final BlogRepository blogRepository;
+
+    private final ModelMapper modelMapper;
 
     @Override
     public CommentDto createComment(CommentDto dto) {
@@ -38,13 +43,13 @@ public class CommentService implements ICommentService {
         comment.setUsers(user);
         comment.setBlogs(blog);
 
-        Comments saved = commentsReposiory.save(comment);
+        Comments saved = commentsRepository.save(comment);
         return mapToDto(saved);
     }
 
     @Override
     public List<CommentDto> getAllComments() {
-        return commentsReposiory.findAll()
+        return commentsRepository.findAll()
                 .stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
@@ -52,18 +57,18 @@ public class CommentService implements ICommentService {
 
     @Override
     public CommentDto getCommentById(Long id) {
-        return commentsReposiory.findById(id)
+        return commentsRepository.findById(id)
                 .map(this::mapToDto)
                 .orElse(null);
     }
 
     @Override
     public CommentDto updateComment(Long id, CommentDto dto) {
-        Optional<Comments> optional = commentsReposiory.findById(id);
+        Optional<Comments> optional = commentsRepository.findById(id);
         if (optional.isPresent()) {
             Comments comment = optional.get();
             comment.setContent(dto.getContent());
-            Comments updated = commentsReposiory.save(comment);
+            Comments updated = commentsRepository.save(comment);
             return mapToDto(updated);
         }
         return null;
@@ -71,32 +76,15 @@ public class CommentService implements ICommentService {
 
     @Override
     public boolean deleteComment(Long id) {
-        if (commentsReposiory.existsById(id)) {
-            commentsReposiory.deleteById(id);
+        if (commentsRepository.existsById(id)) {
+            commentsRepository.deleteById(id);
             return true;
         }
         return false;
     }
 
     private CommentDto mapToDto(Comments comment) {
-        CommentDto dto = new CommentDto();
-        dto.setComment_id(comment.getComment_id());
-        dto.setContent(comment.getContent());
-        dto.setCreated_at(comment.getCreated_at());
 
-        if (comment.getUsers() != null) {
-            dto.setUser_id(comment.getUsers().getUser_id());
-            dto.setUsername(comment.getUsers().getUsername());
-            dto.setEmail(comment.getUsers().getEmail());
-        }
-
-        if (comment.getBlogs() != null) {
-            dto.setBlog_id(comment.getBlogs().getBlog_id());
-            dto.setTitle(comment.getBlogs().getTitle());
-            dto.setAuthor(comment.getBlogs().getAuthor());
-        }
-
-        return dto;
+        return modelMapper.map(comment, CommentDto.class);
     }
 }
-

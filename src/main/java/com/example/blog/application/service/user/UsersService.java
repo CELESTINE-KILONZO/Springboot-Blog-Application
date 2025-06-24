@@ -3,6 +3,8 @@ package com.example.blog.application.service.user;
 import com.example.blog.application.dto.UserDto;
 import com.example.blog.application.model.Users;
 import com.example.blog.application.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UsersService implements IUsersService {
 
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    private final ModelMapper modelMapper;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -65,11 +70,6 @@ public class UsersService implements IUsersService {
 
     // Helper method
     private UserDto mapToDto(Users user) {
-        UserDto dto = new UserDto();
-        dto.setUser_id(user.getUser_id());
-        dto.setUsername(user.getUsername());
-        dto.setEmail(user.getEmail());
-        dto.setRole(user.getRole());
-        return dto;
+       return modelMapper.map(user,UserDto.class);
     }
 }

@@ -9,6 +9,7 @@ import com.example.blog.application.repository.CategoriesRepository;
 import com.example.blog.application.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class BlogService implements IBlogService{
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
     private final CategoriesRepository categoriesRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public BlogDto CreatBlog(BlogDto blogUserCatDto) {
@@ -75,45 +77,10 @@ public class BlogService implements IBlogService{
 
     // Helper method to convert entity to DTO
     private BlogDto mapToDto(Blogs blog) {
-        BlogDto dto = new BlogDto();
-        dto.setBlog_id(blog.getBlog_id());
-        dto.setTitle(blog.getTitle());
-        dto.setDescription(blog.getDescription());
-        dto.setContent(blog.getContent());
-        dto.setCreated(blog.getCreated());
-        dto.setUpdated(blog.getUpdated());
-
-        if (blog.getUsers() != null) {
-            dto.setUser_id(blog.getUsers().getUser_id());
-            dto.setUsername(blog.getUsers().getUsername());
-            dto.setEmail(blog.getUsers().getEmail());
-        }
-
-        if (blog.getCategories() != null) {
-            dto.setCategory_id(blog.getCategories().getCategory_id());
-            dto.setCategory_name(blog.getCategories().getCategory_name());
-        }
-
-        return dto;
-
+            return modelMapper.map(blog,BlogDto.class)  ;
     }
+
     private Blogs mapToEntity(BlogDto dto) {
-        Blogs blog = new Blogs();
-        blog.setTitle(dto.getTitle());
-        blog.setDescription(dto.getDescription());
-        blog.setContent(dto.getContent());
-        blog.setCreated(LocalDateTime.now());
-        blog.setUpdated(LocalDateTime.now());
-
-        Users users = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        blog.setUsers(users);
-
-        Categories category = categoriesRepository.findById(dto.getCategory_id())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
-        blog.setCategories(category);
-
-        return blog;
-    }
+      return modelMapper.map(dto,Blogs.class)  ;  }
 
 }
