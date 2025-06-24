@@ -2,8 +2,6 @@ package com.example.blog.application.service.blog;
 
 import com.example.blog.application.dto.BlogDto;
 import com.example.blog.application.model.Blogs;
-import com.example.blog.application.model.Categories;
-import com.example.blog.application.model.Users;
 import com.example.blog.application.repository.BlogRepository;
 import com.example.blog.application.repository.CategoriesRepository;
 import com.example.blog.application.repository.UserRepository;
@@ -12,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,11 +32,11 @@ public class BlogService implements IBlogService{
     }
 
     @Override
-    public List<BlogDto> getAllBlogs() {
-        List<Blogs> blogs = blogRepository.findAll();
-        return blogs.stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    public List<Blogs> getAllBlogs() {
+        return blogRepository.findAll();
+
+
+
     }
 
     @Override
@@ -53,6 +50,7 @@ public class BlogService implements IBlogService{
         Blogs savedBlog = blogRepository.save(blog);
         return mapToDto(savedBlog);
     }
+//i love coding
 
     @Override
     public List<BlogDto> getBlogsByTitle(String title) {
@@ -83,4 +81,7 @@ public class BlogService implements IBlogService{
     private Blogs mapToEntity(BlogDto dto) {
       return modelMapper.map(dto,Blogs.class)  ;  }
 
+    public List<BlogDto> getConvertedBlogs(List<Blogs> blogs) {
+        return blogs.stream().map(this::mapToDto).toList();
+    }
 }
