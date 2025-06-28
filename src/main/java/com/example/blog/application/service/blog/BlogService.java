@@ -34,9 +34,6 @@ public class BlogService implements IBlogService{
     @Override
     public List<Blogs> getAllBlogs() {
         return blogRepository.findAll();
-
-
-
     }
 
     @Override
@@ -50,7 +47,6 @@ public class BlogService implements IBlogService{
         Blogs savedBlog = blogRepository.save(blog);
         return mapToDto(savedBlog);
     }
-//i love coding
 
     @Override
     public List<BlogDto> getBlogsByTitle(String title) {
