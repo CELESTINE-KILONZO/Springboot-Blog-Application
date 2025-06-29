@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IBlogService {
     BlogDto CreatBlog(BlogDto blogUserCatDto);
-    List<BlogDto> getAllBlogs();
+    List<Blogs> getAllBlogs();
     BlogDto getBlogById(Long id);
     BlogDto saveBlog(Blogs blog);
     List<BlogDto> getBlogsByTitle(String title);
