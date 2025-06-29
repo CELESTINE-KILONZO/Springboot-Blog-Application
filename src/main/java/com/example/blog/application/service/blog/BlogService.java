@@ -28,7 +28,7 @@ public class BlogService implements IBlogService{
     public BlogDto CreatBlog(BlogDto blogUserCatDto) {
         Blogs blogs = mapToEntity(blogUserCatDto);
         blogRepository.save(blogs);
-        return mapToDto(blogs);
+        return convertToDto(blogs);
     }
 
     @Override
@@ -39,25 +39,25 @@ public class BlogService implements IBlogService{
     @Override
     public BlogDto getBlogById(Long id) {
         Optional<Blogs> blog = blogRepository.findById(id);
-        return blog.map(this::mapToDto).orElse(null);
+        return blog.map(this::convertToDto).orElse(null);
     }
 
     @Override
     public BlogDto saveBlog(Blogs blog) {
         Blogs savedBlog = blogRepository.save(blog);
-        return mapToDto(savedBlog);
+        return convertToDto(savedBlog);
     }
 
     @Override
     public List<BlogDto> getBlogsByTitle(String title) {
         List<Blogs> blogs = blogRepository.findByTitle(title);
-        return blogs.stream().map(this::mapToDto).collect(Collectors.toList());
+        return blogs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<BlogDto> getBlogsByAuthor(String author) {
         List<Blogs> blogs = blogRepository.findByAuthor(author);
-        return blogs.stream().map(this::mapToDto).collect(Collectors.toList());
+        return blogs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -66,18 +66,18 @@ public class BlogService implements IBlogService{
                 .stream()
                 .filter(b -> b.getCategories() != null && categoryName.equalsIgnoreCase(b.getCategories().getCategory_name()))
                 .collect(Collectors.toList());
-        return blogs.stream().map(this::mapToDto).collect(Collectors.toList());
+        return blogs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     // Helper method to convert entity to DTO
-    private BlogDto mapToDto(Blogs blog) {
-            return modelMapper.map(blog,BlogDto.class)  ;
+    public BlogDto convertToDto(Blogs blogs) {
+            return modelMapper.map(blogs,BlogDto.class)  ;
     }
 
-    private Blogs mapToEntity(BlogDto dto) {
+    public Blogs mapToEntity(BlogDto dto) {
       return modelMapper.map(dto,Blogs.class)  ;  }
 
     public List<BlogDto> getConvertedBlogs(List<Blogs> blogs) {
-        return blogs.stream().map(this::mapToDto).toList();
+        return blogs.stream().map(this::convertToDto).toList();
     }
 }
