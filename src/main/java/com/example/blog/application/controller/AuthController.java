@@ -1,4 +1,4 @@
 package com.example.blog.application.controller;
 
-public class BlogController {
+public class AuthController {
 }
