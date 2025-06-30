@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>blog-application</name>
 	<description>project for Spring Boot</description>
-	<url/>
+	<url/>import jakarta.persistence.Table;
 	<licenses>
 		<license/>
 	</licenses>
