@@ -60,22 +60,26 @@ public class BlogService implements IBlogService{
         return blogs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+    // In your BlogService.java, update the getBlogsByCategory method:
+
     @Override
     public List<BlogDto> getBlogsByCategory(String categoryName) {
-        List<Blogs> blogs = blogRepository.findAll()
-                .stream()
-                .filter(b -> b.getCategories() != null && categoryName.equalsIgnoreCase(b.getCategories().getCategory_name()))
-                .collect(Collectors.toList());
+        // If using the first solution:
+        // List<Blogs> blogs = blogRepository.findByCategoriesCategoryName(categoryName);
+
+        // If using the @Query solution:
+        List<Blogs> blogs = blogRepository.findBlogsByCategoryName(categoryName);
+
         return blogs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    // Helper method to convert entity to DTO
     public BlogDto convertToDto(Blogs blogs) {
-            return modelMapper.map(blogs,BlogDto.class)  ;
+        return modelMapper.map(blogs,BlogDto.class);
     }
 
     public Blogs mapToEntity(BlogDto dto) {
-      return modelMapper.map(dto,Blogs.class)  ;  }
+        return modelMapper.map(dto,Blogs.class);
+    }
 
     public List<BlogDto> getConvertedBlogs(List<Blogs> blogs) {
         return blogs.stream().map(this::convertToDto).toList();
