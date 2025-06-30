@@ -1,5 +1,7 @@
 package com.example.blog.application.controller;
 
+import com.example.blog.application.dto.LoginRequest;
+import com.example.blog.application.dto.LoginResponse;
 import com.example.blog.application.dto.RegisterRequest;
 import com.example.blog.application.dto.UserDto;
 import com.example.blog.application.model.Users;
@@ -32,6 +34,19 @@ public class UserController {
             return ResponseEntity.badRequest().body(new ApiResponse(REQUEST_ERROR_MESSAGE, e.getMessage()));
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse> LoginUser(@RequestBody LoginRequest request){
+        try{
+            LoginResponse response = usersService.logInUser(request);
+            return ResponseEntity.ok().body(new ApiResponse(REQUEST_SUCCESS_MESSAGE, response));
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(new ApiResponse(REQUEST_ERROR_MESSAGE, e.getMessage()));
+
+        }
+    }
+
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllUsers() {
